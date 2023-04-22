@@ -18,4 +18,10 @@ public class User {
     private String email;
     private String password;
     private LocalDateTime createdAt;
+    private Status status;
+
+
+    public enum Status {
+        ACTIVE, BLOCKED
+    }
 }

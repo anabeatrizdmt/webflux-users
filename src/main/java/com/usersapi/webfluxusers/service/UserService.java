@@ -26,6 +26,7 @@ public class UserService {
                 .email(request.getEmail())
                 .password(request.getPassword())
                 .createdAt(LocalDateTime.now())
+                .status(User.Status.ACTIVE)
                 .build();
         return repository.save(user);
     }

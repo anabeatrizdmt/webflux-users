@@ -32,12 +32,13 @@ public class UsersHandler {
     public Mono<ServerResponse> getAll(ServerRequest request) {
         Flux<UserResponse> userResponses = userService
                 .getAll()
-                .map(product -> UserResponse.builder()
-                        .id(product.getId())
-                        .document(product.getDocument())
-                        .email(product.getEmail())
-                        .password(product.getPassword())
-                        .createdAt(product.getCreatedAt())
+                .map(user -> UserResponse.builder()
+                        .id(user.getId())
+                        .document(user.getDocument())
+                        .email(user.getEmail())
+                        .password(user.getPassword())
+                        .createdAt(user.getCreatedAt())
+                        .status(user.getStatus())
                         .build());
 
         return ServerResponse
@@ -50,12 +51,13 @@ public class UsersHandler {
 
         String id = request.pathVariable("id");
         Mono<UserResponse> responseMono = userService.findById(id)
-                .map(product -> new UserResponse(
-                        product.getId(),
-                        product.getDocument(),
-                        product.getEmail(),
-                        product.getPassword(),
-                        product.getCreatedAt()
+                .map(user -> new UserResponse(
+                        user.getId(),
+                        user.getDocument(),
+                        user.getEmail(),
+                        user.getPassword(),
+                        user.getCreatedAt(),
+                        user.getStatus()
                 ));
 
         return ServerResponse
