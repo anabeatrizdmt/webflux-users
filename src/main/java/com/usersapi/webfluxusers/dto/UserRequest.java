@@ -1,7 +1,16 @@
 package com.usersapi.webfluxusers.dto;
 
-public record UserRequest (
-        String document,
-        String email,
-        String password
-        ) { }
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+
+@Data
+public class UserRequest {
+        @JsonProperty("document")
+        private String document;
+
+        @JsonProperty("email")
+        private String email;
+
+        @JsonProperty("password")
+        private String password;
+}

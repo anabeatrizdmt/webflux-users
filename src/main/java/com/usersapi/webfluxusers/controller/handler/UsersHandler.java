@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -28,15 +29,40 @@ public class UsersHandler {
 
     }
 
+    public Mono<ServerResponse> getAll(ServerRequest request) {
+        Flux<UserResponse> userResponses = userService
+                .getAll()
+                .map(product -> UserResponse.builder()
+                        .id(product.getId())
+                        .document(product.getDocument())
+                        .email(product.getEmail())
+                        .password(product.getPassword())
+                        .createdAt(product.getCreatedAt())
+                        .build());
+
+        return ServerResponse
+                .ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromPublisher(userResponses, UserResponse.class));
+    }
+
     public Mono<ServerResponse> findById(ServerRequest request) {
 
         String id = request.pathVariable("id");
+        Mono<UserResponse> responseMono = userService.findById(id)
+                .map(product -> new UserResponse(
+                        product.getId(),
+                        product.getDocument(),
+                        product.getEmail(),
+                        product.getPassword(),
+                        product.getCreatedAt()
+                ));
 
         return ServerResponse
                 .ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters
-                        .fromPublisher(userService.findById(id), UserResponse.class));
+                        .fromPublisher(responseMono, UserResponse.class));
 
     }
 

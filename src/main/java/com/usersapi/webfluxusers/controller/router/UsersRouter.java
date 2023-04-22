@@ -20,7 +20,7 @@ public class UsersRouter {
     public RouterFunction<ServerResponse> routes() {
         return RouterFunctions
                 .route(POST("/users"), usersHandler::save)
-//                .andRoute(GET("/users"), usersHandler::getAll)
+                .andRoute(GET("/users"), usersHandler::getAll)
                 .andRoute(GET("/users/{id}"), usersHandler::findById);
     }
 }

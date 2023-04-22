@@ -6,6 +6,7 @@ import com.usersapi.webfluxusers.model.User;
 import com.usersapi.webfluxusers.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
@@ -17,42 +18,23 @@ import java.util.UUID;
 public class UserService {
     private final UserRepository repository;
 
-    public Mono<UserResponse> save(UserRequest userRequest) {
+    public Mono<User> save(UserRequest request) {
 
-        String uid = UUID.randomUUID().toString();
-
-        var userEntity = new User(
-                uid,
-                userRequest.document(),
-                userRequest.email(),
-                userRequest.password(),
-                LocalDateTime.now()
-        );
-
-        repository.save(userEntity);
-
-        return Mono.defer(() -> Mono.just(
-                new UserResponse(
-                        uid,
-                        userRequest.document(),
-                        userRequest.email(),
-                        userRequest.password(),
-                        LocalDateTime.now()
-                )
-        ));
+        User user = User.builder()
+                .id(UUID.randomUUID().toString())
+                .document(request.getDocument())
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .createdAt(LocalDateTime.now())
+                .build();
+        return repository.save(user);
     }
 
-    public Mono<UserResponse> findById(String id) {
-        return Mono.defer(() -> Mono.justOrEmpty(repository.findById(id)))
-                .subscribeOn(Schedulers.boundedElastic())
-                .map(entity -> {
-                    return new UserResponse(
-                            entity.id(),
-                            entity.document(),
-                            entity.email(),
-                            entity.password(),
-                            entity.createdAt()
-                    );
-                });
+    public Flux<User> getAll() {
+        return repository.findAll();
+    }
+
+    public Mono<User> findById(String id) {
+        return repository.findById(id);
     }
 }
