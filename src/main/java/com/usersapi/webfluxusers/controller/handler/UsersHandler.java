@@ -2,16 +2,18 @@ package com.usersapi.webfluxusers.controller.handler;
 
 import com.usersapi.webfluxusers.dto.UserRequest;
 import com.usersapi.webfluxusers.dto.UserResponse;
+import com.usersapi.webfluxusers.model.User;
 import com.usersapi.webfluxusers.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -68,4 +70,12 @@ public class UsersHandler {
 
     }
 
+    public Mono<ServerResponse> getStatusById(ServerRequest request) {
+        String id = request.pathVariable("id");
+        Mono<User.Status> statusMono = userService.getStatusById(id);
+        return ServerResponse
+                .ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromPublisher(statusMono, User.Status.class));
+    }
 }

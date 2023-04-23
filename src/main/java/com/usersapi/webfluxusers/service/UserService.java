@@ -38,4 +38,11 @@ public class UserService {
     public Mono<User> findById(String id) {
         return repository.findById(id);
     }
+
+    public Mono<User.Status> getStatusById(String id) {
+        return repository.findById(id)
+                .flatMap(user -> repository.findStatusById(user.getId()))
+                .map(UserRepository.UserStatusProjection::getStatus);
+    }
+
 }

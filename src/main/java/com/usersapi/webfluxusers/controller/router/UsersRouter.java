@@ -4,6 +4,8 @@ import com.usersapi.webfluxusers.controller.handler.UsersHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
+import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -21,6 +23,7 @@ public class UsersRouter {
         return RouterFunctions
                 .route(POST("/users"), usersHandler::save)
                 .andRoute(GET("/users"), usersHandler::getAll)
-                .andRoute(GET("/users/{id}"), usersHandler::findById);
+                .andRoute(GET("/users/{id}"), usersHandler::findById)
+                .andRoute(GET("/users/status/{id}"), usersHandler::getStatusById);
     }
 }
