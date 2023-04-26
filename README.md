@@ -4,6 +4,18 @@ This project is a reactive RESTful API for managing users. It is written in Java
 
 **Note:** This API is part of a larger e-commerce system that includes product catalog management and order management. To run the complete system, you must also run the [WebFlux Catalog API](https://github.com/anabeatrizdmt/webflux-catalog), the [WebFlux Orders API](https://github.com/anabeatrizdmt/webflux-orders), and the [WebFlux E-commerce API Gateway](https://github.com/anabeatrizdmt/webflux-ecommerce-api-gateway). The API Gateway provides a unified interface to the entire system and manages communication between the individual APIs.
 
+
+## Table of Contents
+
+- [Requirements](#requirements)
+- [Installation and Setup](#installation-and-setup)
+- [Usage](#usage)
+  - [Create a user](#create-a-user)
+  - [Get all users](#get-all-users)
+  - [Get a user by ID](#get-a-user-by-id)
+  - [Check user status](#check-user-status)
+  
+  
 ## Requirements
 
 - Java 11 or higher
