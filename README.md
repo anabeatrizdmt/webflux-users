@@ -14,7 +14,7 @@ This project is a reactive RESTful API for managing users. It is written in Java
 1. Clone the repository:
 
 ```
-git clone https://github.com/anabeatrizdmt/webflux-catalog.git
+git clone https://github.com/anabeatrizdmt/webflux-users.git
 ```
 
 2. Install dependencies:
